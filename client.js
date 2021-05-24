@@ -9,34 +9,34 @@ let { fetchMock } = require ('./MockServiceApi');
    usage:
    node client.js */
 
-let prom; // custom promise
+let p; // custom promise
 console.clear();
 
 // gonna test all endpoints
-prom = newPromise(`/logIn`);
-delete prom;
-prom = newPromise(`/sendMessage`);
-delete prom;
-prom = newPromise(`/newMessage`);
-delete prom;
-prom = newPromise(`/loadNewMessages`);
-delete prom;
+p = newPromise(`/logIn`);
+delete p;
+p = newPromise(`/sendMessage`);
+delete p;
+p = newPromise(`/newMessage`);
+delete p;
+p = newPromise(`/loadNewMessages`);
+delete p;
 
 function newPromise(params) {
     let log = 'endpoint: ' + params;
-    let reponse = fetchMock(params);
+    let prom = fetchMock(params);
 
-    reponse.catch(err => { console.error(err) })
-    reponse.then(data => {
+    prom.catch(err => { console.error(err) })
+    prom.then(data => {
         if (!data.success) {// resend if no success
             console.log(log + ' pending ...');
-            delete reponse;
+            delete prom;
             newPromise(params);
         } else {// success !!!
             console.log(log + ' received.');
-            reponse.then(ok => { console.log(ok) })
+            prom.then(ok => { console.log(ok) })
         }
     })
 
-    return reponse;
+    return prom;
 }
