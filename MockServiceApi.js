@@ -27,7 +27,7 @@ function testTakeOne(loopmax = 1e7) {
        it is now tested and
        it looks very random */
     let dif = tot = 0;
-    console.log('please wait while verifying random takeOne(x, y) ...'); // in % 
+    console.log('please wait while verifying random takeOne(x, y) ...');
     while (tot < loopmax) {
         dif += (takeOne(true, false)) ? 1 : -1;
         tot ++;
