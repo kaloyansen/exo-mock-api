@@ -1,3 +1,8 @@
+/*!
+ * Kaloyan KRSTEV
+ * kaloyansen@gmail.com
+ * https://freeshell.de/morla/mock
+ */
 const timeout = 1234;
 
 function fetchMock(url) {
@@ -71,27 +76,37 @@ let loadNewMessages = params => new Promise(function(resolve, reject) {
 
 
 let sciExpo = (x, f = 1) => Number.parseFloat(x).toExponential(f);
+
 let takeOne = (x, y) => (Math.random() > 0.5) ? x : y;
-function takeOneTest(loopmax = 6e6) {
-    /* takeOne(x, y) standart test
+
+function takeOneTest(loopmax = 8e8) {
+    /* takeOne(x, y) standard test
        to see if it is really random
+
        it is now tested and
-       it looks very random */
-    let dif = tot = div = 0;
+       looks very random
+
+       co is a simple counter */
+    let co = 0;    
+    let signal = 0;
+    let normalized = 0;
+
     console.log('please wait while verifying random takeOne(x, y) ...');
-    while (tot < loopmax) {
-        dif += (takeOne(true, false)) ? 1 : -1;
-        tot ++;
-        div = dif / tot;
-        if (tot % (loopmax / 80)) {
-            tot = tot;
+
+    while (co < loopmax) {
+        /********** both should be close to ************/
+        signal += (takeOne(true, false)) ? 1 : -1;    //
+        normalized = signal / ++ co;                 //
+        /********* zero with time ******************/
+        if (co % (loopmax / 80)) {
+            co = co;
         } else {
             console.clear();
-            console.log(`(fast random test) statistic: ${sciExpo(tot)}/${sciExpo(loopmax)}, deviation from zero: ${sciExpo(div)}`);
+            console.log(`(fast random test) statistic: ${sciExpo(co)}/${sciExpo(loopmax)}, a normalized ${sciExpo(normalized)} and not normalized ${sciExpo(signal)} signal from the random generator`);
         }
     }
 
-    return div;
+    return normalized;
 }
 
-module.exports = { fetchMock, takeOneTest }
+//module.exports = { fetchMock, takeOneTest }
